@@ -1,12 +1,14 @@
 <template>
-  <h1>WORK IN PROGRESS</h1>
+  <MainComponent></MainComponent>
 </template>
 
 <script>
+import MainComponent from "./components/MainComponent.vue"
 
 export default {
   name: 'App',
   components: {
+    MainComponent
   }
 }
 </script>
