@@ -7,9 +7,9 @@
     - ...
 -->
 <script>
+import MessageHandler from '../utils/MessageHandler.vue';
 import ChatMessages from './ChatMessages.vue';
 import MessageInput from './MessageInput.vue';
-
 export default {
     data() {
         return {
@@ -17,12 +17,13 @@ export default {
         }
     },
     components: {
-       ChatMessages,
-       MessageInput
+      ChatMessages,
+      MessageInput,
+      MessageHandler
     },
     methods: {
-        handleSendingNewMessage(msg) {
-            // TODO: Give the message to ChatMessages to render it in the conversation
+        handleNewMessage(msg) {
+            // Add the message to the messages list
             this.messages.push(msg);
             // Use MessageHandler.vue to send the message payload
         }
@@ -34,17 +35,24 @@ export default {
     <div class="container" >
         <ChatMessages :messages="this.messages"></ChatMessages>
         <div class="fixed-input">
-            <MessageInput @send-new-message="handleSendingNewMessage"></MessageInput>
+            <MessageInput @send-new-message="handleNewMessage"></MessageInput>
         </div>
+        <MessageHandler @received-new-message="handleNewMessage"></MessageHandler>
     </div>
-
 </template>
 
 <style>
 .container {
-  height: 100vh; /* Set the height to 100% of the viewport height */
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* Prevent scrolling on the rest of the site */
+}
+
+.chat-messages {
+  flex: 1; /* Allow ChatMessages to take up remaining vertical space */
+  overflow-y: auto; /* Enable vertical scrolling within ChatMessages */
+  padding-bottom: 60px; /* Add padding at the bottom for the input field */
 }
 
 .fixed-input {
@@ -52,8 +60,16 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #414142;
+  background-color: #454548;
   padding: 10px;
-  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow to the input field */
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.fixed-input input {
+  width: 40%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 </style>

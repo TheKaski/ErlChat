@@ -35,19 +35,16 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style>
 .chat-messages {
-  height: 100%;
-  overflow: hidden;
+  overflow-y: auto; /* Enable vertical scrolling within ChatMessages */
+  flex: 1; /* Allow ChatMessages to take up remaining vertical space */
 }
 
 .messages-list {
   list-style-type: none;
-  padding: 0;
+  padding-top: 10px;
   margin: 0;
-  overflow-y: auto;
-  height: 100%;
-
 }
 
 .message-item {

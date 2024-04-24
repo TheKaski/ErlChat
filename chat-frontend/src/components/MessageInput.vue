@@ -11,8 +11,10 @@ export default {
   },
   methods: {
     sendMessage() {
+      if(this.message.trim() !== '') {
       this.$emit('send-new-message', this.message);
       this.message = ''; // Clear input after posting
+      }
     }
   }
 }
