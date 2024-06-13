@@ -13,7 +13,9 @@ import MessageInput from './MessageInput.vue';
 export default {
     data() {
         return {
-            messages: []
+          receivedMessages: ["this thing is sick and received on default"],
+          sentMessages: [],
+          newMessage: ''
         }
     },
     components: {
@@ -22,10 +24,14 @@ export default {
       MessageHandler
     },
     methods: {
-        handleNewMessage(msg) {
+        handleNewSentMessage(msg) {
             // Add the message to the messages list
-            this.messages.push(msg);
-            // Use MessageHandler.vue to send the message payload
+        this.sentMessages.push(msg);
+        this.newMessage = msg
+      },
+        handleNewReceivedMessage(msg) {
+          // Add the message to the messages list
+          this.receivedMessages.push(msg);
         }
   }
 }
@@ -33,11 +39,11 @@ export default {
 
 <template>
     <div class="container" >
-        <ChatMessages :messages="this.messages"></ChatMessages>
+        <ChatMessages :sentMessages="this.sentMessages" :receivedMessages="this.receivedMessages"></ChatMessages>
         <div class="fixed-input">
-            <MessageInput @send-new-message="handleNewMessage"></MessageInput>
+            <MessageInput @send-new-message="handleNewSentMessage"></MessageInput>
         </div>
-        <MessageHandler @received-new-message="handleNewMessage"></MessageHandler>
+        <MessageHandler @received-new-message="handleNewReceivedMessage" :message="this.newMessage"></MessageHandler>
     </div>
 </template>
 

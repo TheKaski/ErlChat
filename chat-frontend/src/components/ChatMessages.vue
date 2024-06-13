@@ -6,14 +6,22 @@
 import ChatMessage from './ChatMessage.vue';
 export default {
   props: {
-    messages: {
+    sentMessages: {
+      type: Array
+    },
+    receivedMessages: {
       type: Array
     }
   },
+  
   computed: {
-    displayedMessages() {
+    displayedSentMessages() {
       //Return updated copy of the messages prop
-      return [...this.messages];
+      return [...this.sentMessages];
+    },
+    displayedReceivedMessages() {
+      //Return updated copy of the messages prop
+      return [...this.receivedMessages];
     }
   },
   components:{
@@ -26,12 +34,20 @@ export default {
 
 <template>
   <div class="chat-messages">
-    <ul class="messages-list">
-      <li
-        v-for="(msg, index) in displayedMessages" :key="index" class="message-item">
-        <ChatMessage :message="msg"/>
-      </li>
-    </ul>
+    <div class="messages-container">
+      <ul class="messages-list received-messages">
+        <li
+          v-for="(msg, index) in displayedReceivedMessages" :key="index" class="message-item">
+          <ChatMessage :message="msg" />
+        </li>
+      </ul>
+      <ul class="messages-list sent-messages">
+        <li
+          v-for="(msg, index) in displayedSentMessages" :key="index" class="message-item">
+          <ChatMessage :message="msg"/>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -41,10 +57,23 @@ export default {
   flex: 1; /* Allow ChatMessages to take up remaining vertical space */
 }
 
+.messages-container {
+  display: flex;
+}
+
+
 .messages-list {
+  overflow-x: auto;
   list-style-type: none;
   padding-top: 10px;
   margin: 0;
+}
+.received-messages {
+  flex: 1; /* Make the received messages list flexible to take remaining space */
+}
+
+.sent-messages {
+  flex: 1; /* Make the sent messages list flexible to take remaining space */
 }
 
 .message-item {

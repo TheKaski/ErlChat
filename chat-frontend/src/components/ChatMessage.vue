@@ -15,7 +15,7 @@ export default {
 
 <template>
   <div class="chat-message">
-      <p>{{ message }}</p>
+      <p class="message-content">{{ message }}</p>
   </div>
 </template>
 
@@ -27,5 +27,8 @@ margin: 5px;
 padding: 10px;
 border-radius: 10px;
 background-color: #cda5e5;
+}
+.message-content {
+  word-wrap: break-word; /* Allow long words to break and wrap onto the next line */
 }
 </style>

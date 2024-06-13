@@ -8,3 +8,9 @@ It has been since known to be used by WhatsApp and Klarna to develop robust faul
 This repository contains code for frontend and backend. The Frontend is implemented using Vue.JS and allows clients
 to directly talk with the erlang backend server. The backend server is implemented using Erlang and its main purpose is to work as a chat server. The backend server is responsible for routing the messages
 between the clients as real time as possible.
+
+## Learning areas of this project
+
+    - Erlang
+    - Vue.js
+    - WebSockets
