@@ -1,0 +1,15 @@
+{application, backend,
+ [{description, "An OTP application"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, {backend_app, []}},
+  {applications,
+   [kernel,
+    stdlib, cowboy
+   ]},
+  {env,[]},
+  {modules, [backend_app, backend_sup, websocket_handler, http_listener, handler]},
+
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.
