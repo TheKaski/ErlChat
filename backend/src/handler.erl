@@ -6,21 +6,17 @@
 -export([terminate/3]).
 -export([ws_send/2]).
 
--record(state, {
-    clients = []  % List to store connected client PIDs used for broadcasting messages
-}).
-
 init(Req, State) ->
     io:format("websocket connection initiated~n~p~n~nstate: ~p~n", [Req, State]),
     %% Update the state to add the client's PID
-    {cowboy_websocket, Req, #state{clients = []}}.
+    {cowboy_websocket, Req, State}.
 
-websocket_init(_Opts) ->
+websocket_init(State) ->
     ClientPid = self(),
-    State = _Opts,
-    io:format("Adding the client pid ~p to the state~n", [ClientPid]),
-    NewState = State#state{clients = [ClientPid | State#state.clients]},
-    {ok,  NewState}.
+    
+    % Add this client to the connected client state
+    state_manager:add_client(ClientPid),
+    {ok,  State}.
 
 %% Handle incoming WebSocket messages and broadcast to other clients
 websocket_handle({text, Data}, State) ->
@@ -32,22 +28,9 @@ websocket_handle(_Data, State) ->
     {ok, State}.
 
 broadcast_message(Data, State) ->
-    io:format("BROADCASTING MESSAGE ~p to ~p~n", [Data, State]),
+    io:format("BROADCASTING MESSAGE ~p", [Data]),
     SenderPid = self(),
-    %% Extract connected client PIDs from the state
-    Clients = State#state.clients,
-    %% Send the message to each connected client
-    lists:foreach(
-        fun(ClientPid) ->
-            if % Broadcast the message to all the other clients listed in the 
-                ClientPid =/= SenderPid ->
-                    ClientPid ! {broadcast, Data};
-                true ->
-                    ok
-            end
-        end,
-        Clients
-    ).
+    state_manager:broadcast_message(SenderPid, Data).
 
 websocket_info({broadcast,Data}, State ) ->
     {reply, {text, Data}, State};
@@ -63,5 +46,6 @@ ws_send(Pid,SInterval) ->
 
 terminate(_Reason, Req, _State) ->
     io:format("websocket connection terminated~n~p~n", [maps:get(peer, Req)]),
-
+    % Remove this client from the list of connected clients:
+    state_manager:remove_client(self()),
     ok.
