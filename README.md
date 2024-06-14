@@ -18,3 +18,6 @@ Since then Erlang is known to be used by e.g. WhatsApp and Klarna to develop rob
 ## My implementation
 This repository contains code for hosting frontend and backend servers separately. The Frontend is implemented using Vue.js and allows clients to directly talk with the Erlang backend server as a message relay. The backend server is implemented using Erlang and its main purpose is to work as a message relay or broadcaster using websockets as the communication method. The erlang server is responsible for routing the messages
 between all the connected clients as real time as possible. As this project is a smaller side project combining my knowledge between different technologies the code will not contain any user registration or loging in meaning that it will only work as open ""anonymous"" chat room.
+
+![image](https://github.com/TheKaski/ErlChat/assets/80392752/3e393b1b-84a8-4f00-853b-85f64e1e642c)
+
