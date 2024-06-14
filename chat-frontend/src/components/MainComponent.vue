@@ -13,7 +13,7 @@ import MessageInput from './MessageInput.vue';
 export default {
     data() {
         return {
-          receivedMessages: ["this thing is sick and received on default"],
+          receivedMessages: ["Welcome to my chat application. Once connected you can start messaging. If no one is connected you can create a new private window and chat with your self :)"],
           sentMessages: [],
           newMessage: ''
         }
